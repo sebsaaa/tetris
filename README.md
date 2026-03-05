@@ -33,5 +33,6 @@ By default, players can:
 The project was developed using:
 
 - **C#**
+- **WPF**
 - **.NET**
 - **Microsoft Visual Studio**

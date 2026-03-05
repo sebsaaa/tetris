@@ -28,7 +28,7 @@ By default, players can:
 
 ---
 
-## 🛠 Technologies
+## Technologies
 
 The project was developed using:
 

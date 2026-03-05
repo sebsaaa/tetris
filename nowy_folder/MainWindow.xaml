@@ -1,0 +1,335 @@
+﻿<Window x:Class="Tetris.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tetris"
+        mc:Ignorable="d"
+        Title="MainWindow"  Height="713" Width="723" KeyDown="EKeyDown"
+        >
+    <Window.Background>
+        <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+            <GradientStop Color="#FF001052" Offset="0"/>
+            <GradientStop Color="#FF001082" Offset="0.5"/>
+            <GradientStop Color="#FF001052" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <TabControl x:Name="TabControl" Background="Transparent" BorderBrush="Transparent">
+        <TabItem TabIndex="0" Background="Transparent" Visibility="Hidden"  >
+            <Viewbox Stretch="Uniform" HorizontalAlignment="Left">
+                <Grid HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="176*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border BorderThickness="3" Margin="20,25,0,25" Grid.Column="1">
+                        <Border.BorderBrush>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#004bb5" Offset="0" />
+
+                                <GradientStop Color="#2071aa" Offset="0.5"/>
+
+                                <GradientStop Color="#004bb5" Offset="1" />
+
+                            </LinearGradientBrush>
+                        </Border.BorderBrush>
+                        <Canvas x:Name="GameCanvas" Width="150" Height="300" >
+
+                        </Canvas>
+                    </Border>
+
+                    <Border BorderThickness="3" Margin="20,25,0,25" Grid.Column="1">
+
+                        <Canvas x:Name="FigureCanvas" Width="150" Height="300" >
+
+                        </Canvas>
+                    </Border>
+
+                    <Border x:Name="overLabel" BorderThickness="3" Height="200" Width="130" Margin="20,25,0,25" Grid.Column="1" Background="#cc000a2e">
+                        <Border.BorderBrush>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#004bb5" Offset="0" />
+                                <GradientStop Color="#2071aa" Offset="0.5"/>
+                                <GradientStop Color="#004bb5" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.BorderBrush>
+                        <StackPanel>
+                            <Label  Content="Game Over" Margin="0,20,0,0" FontSize="27" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" Height="40" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                            <Label x:Name="LevelAfter" Content="Level: "  FontSize="30" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Label  Content="Score: "  FontSize="30" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Label x:Name="ScoreAfter" Content="0000" Margin="0,-10,0,0" FontSize="30" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </StackPanel>
+
+                    </Border>
+
+                    <Border Margin="210,25,-150,285" BorderThickness="3" Background="#000a2e" Grid.Column="1">
+                        <Border.BorderBrush>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#004bb5" Offset="0" />
+                                <GradientStop Color="#2071aa" Offset="0.5"/>
+                                <GradientStop Color="#004bb5" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.BorderBrush>
+
+                        <StackPanel VerticalAlignment="Center" Height="40" HorizontalAlignment="Center">
+                            <Label x:Name="level" Content="Level: 1" Margin="0,0,0,0" FontSize="30" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Margin="210,76,-150,212" BorderThickness="3" Background="#000a2e" Grid.Column="1">
+                        <Border.BorderBrush>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#004bb5" Offset="0" />
+                                <GradientStop Color="#2071aa" Offset="0.5"/>
+                                <GradientStop Color="#004bb5" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.BorderBrush>
+
+                        <StackPanel VerticalAlignment="Center" Height="56" HorizontalAlignment="Center">
+                            <Label Content="SCORE" Margin="0,-5,0,0" FontSize="30" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-15,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label x:Name="score" Grid.Column="0" Margin="10,0,0,0" Content="0" FontSize="30" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" HorizontalAlignment="Center" Height="35"/>
+                                <Label x:Name="scoreAdd" Grid.Column="1" Margin="0,0,0,0" Content="" VerticalAlignment="Bottom" FontSize="20" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" HorizontalAlignment="Center" Height="35"/>
+                            </Grid>
+
+                        </StackPanel>
+                    </Border>
+                    <Border Margin="210,149,-150,77" BorderThickness="3"  Background="#000a2e" Grid.Column="1">
+                        <Border.BorderBrush>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#004bb5" Offset="0" />
+                                <GradientStop Color="#2071aa" Offset="0.5"/>
+                                <GradientStop Color="#004bb5" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.BorderBrush>
+
+                        <StackPanel VerticalAlignment="Top" Height="120" HorizontalAlignment="Center">
+                            <Label Content="NEXT" Margin="0,0,0,0" FontSize="30" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Border BorderThickness="3" Width="51" Background="#000a2e" Height="65">
+                                <Border.BorderBrush>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#004bb5" Offset="0" />
+                                        <GradientStop Color="#2071aa" Offset="0.5"/>
+                                        <GradientStop Color="#004bb5" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.BorderBrush>
+                                <Canvas x:Name="FigurePreview" Width="45" Height="60" >
+
+                                </Canvas>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                    <Border Margin="210,284,-150,25" BorderThickness="3" Background="#000a2e" Grid.Column="1">
+                        <Border.BorderBrush>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#004bb5" Offset="0" />
+                                <GradientStop Color="#2071aa" Offset="0.5"/>
+                                <GradientStop Color="#004bb5" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.BorderBrush>
+
+                        <Button x:Name="start" BorderBrush="Transparent" Background="Transparent" Content="PLAY" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontSize="30" FontFamily="pack://application:,,,/res/#Jersey 10" Foreground="White" BorderThickness="0" Click="start_Click" MouseEnter="DefaultBtnEnter" MouseLeave="DefaultBtnLeave" />
+                    </Border>
+                    <Button x:Name="settings" Grid.Column="1" HorizontalAlignment="Right" Margin="0,-5,-200,0" BorderThickness="2.5"  VerticalAlignment="Top" Background="#000a2e" Click="OpenSettings" >
+                        <Button.BorderBrush>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#004bb5" Offset="0" />
+                                <GradientStop Color="#2071aa" Offset="0.5"/>
+                                <GradientStop Color="#004bb5" Offset="1" />
+                            </LinearGradientBrush>
+                        </Button.BorderBrush>
+                        <Image Source="/res/img.png" Width="20"/>
+                    </Button>
+
+                </Grid>
+            </Viewbox>
+        </TabItem>
+        <TabItem TabIndex="1" Header="" Background="Transparent" Padding="0" Margin="0" Visibility="Hidden">
+            <Grid Margin="-10,-25,-10,-10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Width="750" Height="60" Background="#000a2e" BorderThickness="2.5" VerticalAlignment="Top">
+                    <Border.BorderBrush>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#004bb5" Offset="0" />
+                            <GradientStop Color="#2071aa" Offset="0.5"/>
+                            <GradientStop Color="#004bb5" Offset="1" />
+                        </LinearGradientBrush>
+                    </Border.BorderBrush>
+                    <Grid Width="700" HorizontalAlignment="Center">
+                        <Button x:Name="backArr" Background="Transparent" BorderBrush="Transparent" Content="Back" Margin="30,0,0,0" FontSize="30" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" Height="40" HorizontalAlignment="Left" VerticalAlignment="Center" Click="BackBtnClicked" MouseLeave="BackBtnLeave" MouseEnter="BackBtnEnter" />
+                        <Button x:Name="backBtn" Background="Transparent" BorderBrush="Transparent" Content="◂" Margin="0,5,0,0" FontSize="30" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" Height="40" HorizontalAlignment="Left" VerticalAlignment="Center" Click="BackBtnClicked" MouseLeave="BackBtnLeave" MouseEnter="BackBtnEnter"/>
+
+                        <Button Content="Colors" Background="Transparent" BorderBrush="Transparent" Margin="-280,0,0,0" FontSize="30" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" Click="colorsTab" MouseLeave="NavBtnLeave" MouseEnter="NavBtnEnter" />
+                        <Button Content="|  Create Figures  |" Background="Transparent" BorderBrush="Transparent" FontSize="30" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" Click="figuresTab" MouseLeave="NavBtnLeave" MouseEnter="NavBtnEnter"/>
+                        <Button Content="Controls" Background="Transparent" BorderBrush="Transparent" Margin="300,0,0,0" FontSize="30" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" Click="controlsTab" MouseLeave="NavBtnLeave" MouseEnter="NavBtnEnter"/>
+                    </Grid>
+                </Border>
+                <TabControl Grid.Row="1" x:Name="SettingsControl" Background="Transparent" BorderBrush="Transparent">
+                    <TabItem TabIndex="0" Background="Transparent" Visibility="Hidden">
+                        <WrapPanel Margin="20,10,0,0" x:Name="colorsList" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top">
+                            <Border Margin="5" BorderThickness="2.5" Width="75" Height="105">
+                                <Border.BorderBrush>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#004bb5" Offset="0" />
+                                        <GradientStop Color="#2071aa" Offset="0.5"/>
+                                        <GradientStop Color="#004bb5" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.BorderBrush>
+                                <Grid Height="95" Background="#000a2e" Width="70">
+                                    <Button x:Name="colorBtn" BorderBrush="Transparent" Background="white" Width="40" Height="40" VerticalAlignment="Top" Margin="0,10,0,0" Click="ColorPicker">
+                                    </Button>
+                                    <Button x:Name="AddColor" Margin="0,0,0,5" Content="Add" FontSize="17" FontFamily="pack://application:,,,/res/#Jersey 10" Height="30" Width="50" VerticalAlignment="Bottom" BorderBrush="LimeGreen" BorderThickness="2.5" Background="Transparent" Foreground="LimeGreen" Click="AddNewColor" MouseEnter="AddBtnEnter" MouseLeave="AddBtnLeave"  />
+                                </Grid>
+                            </Border>
+                        </WrapPanel>
+                        
+                    </TabItem>
+                    <TabItem TabIndex="1" Background="Transparent" Visibility="Hidden" >
+                        <WrapPanel Margin="20,10,0,0" x:Name="figureList" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top">
+                            <Border Margin="5" BorderThickness="2.5" Width="90" Height="135">
+                                <Border.BorderBrush>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#004bb5" Offset="0" />
+                                        <GradientStop Color="#2071aa" Offset="0.5"/>
+                                        <GradientStop Color="#004bb5" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.BorderBrush>
+                                <Grid Height="130"  Background="#000a2e" Width="86">
+                                    <Border Margin="0,-25,0,0" BorderThickness="2.5" Width="50" Height="65">
+                                    <Border.BorderBrush>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#004bb5" Offset="0" />
+                                            <GradientStop Color="#2071aa" Offset="0.5"/>
+                                            <GradientStop Color="#004bb5" Offset="1" />
+                                        </LinearGradientBrush>
+                                    </Border.BorderBrush>
+                                    <Button x:Name="figureBtn" BorderThickness="0" BorderBrush="Transparent" Background="white" Width="45" Height="60" VerticalAlignment="Top"  Click="FigurePicker">
+                                        <Canvas x:Name="AddFigure" Width="45" Height="60"  >
+
+                                        </Canvas>
+                                    </Button>
+                                </Border>
+                                    <Button x:Name="addFigure" Margin="0,0,0,6" Content="Add" FontSize="17" FontFamily="pack://application:,,,/res/#Jersey 10" Height="30" Width="50" VerticalAlignment="Bottom" BorderBrush="LimeGreen" BorderThickness="2.5" Background="Transparent" Foreground="LimeGreen" Click="AddNewFigure" MouseEnter="AddBtnEnter" MouseLeave="AddBtnLeave"/>
+                                </Grid>
+                            </Border>
+                        </WrapPanel>
+                    </TabItem>
+                    <TabItem TabIndex="2" Background="Transparent" Visibility="Hidden">
+                        <Grid Margin="75" Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Margin="0,0,0,0" BorderThickness="2.5" Width="120" Height="60" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#000a2e">
+                                <Border.BorderBrush>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#004bb5" Offset="0" />
+                                        <GradientStop Color="#2071aa" Offset="0.5"/>
+                                        <GradientStop Color="#004bb5" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.BorderBrush>
+                                <Label Content="Go left" Margin="0,0,0,0" FontSize="30" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Border>
+                            <Border Grid.Column="0" Margin="60,0,0,0" BorderThickness="2.5" Width="60" Height="60" VerticalAlignment="Top" Background="#000a2e" HorizontalAlignment="Center">
+                                <Border.BorderBrush>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#004bb5" Offset="0" />
+                                        <GradientStop Color="#2071aa" Offset="0.5"/>
+                                        <GradientStop Color="#004bb5" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.BorderBrush>
+                                <Button x:Name="leftKeyLabel" Background="Transparent" BorderThickness="0" Content="A" Margin="0,0,0,0" FontSize="30" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" Height="40" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="AwaitLeftKey" KeyDown="SetLeftKey" MouseEnter="DefaultBtnEnter" MouseLeave="DefaultBtnLeave" />
+                            </Border>
+                            <Border Grid.Column="1" Margin="0,0,0,0" BorderThickness="2.5" Width="120" Height="60" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#000a2e">
+                                <Border.BorderBrush>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#004bb5" Offset="0" />
+                                        <GradientStop Color="#2071aa" Offset="0.5"/>
+                                        <GradientStop Color="#004bb5" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.BorderBrush>
+                                <Label  Content="Go right" Margin="0,0,0,0" FontSize="30" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Border>
+                            <Border Grid.Column="1" Margin="0,0,0,0" BorderThickness="2.5" Width="60" Height="60" VerticalAlignment="Top" Background="#000a2e" HorizontalAlignment="right">
+                                <Border.BorderBrush>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#004bb5" Offset="0" />
+                                        <GradientStop Color="#2071aa" Offset="0.5"/>
+                                        <GradientStop Color="#004bb5" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.BorderBrush>
+                                <Button x:Name="rightKeyLabel" Background="Transparent" BorderThickness="0" Content="D" Margin="0,0,0,0" FontSize="30" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" Height="40" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="AwaitRightKey" KeyDown="SetRightKey" MouseEnter="DefaultBtnEnter" MouseLeave="DefaultBtnLeave" />
+                            </Border>
+                            <Border Grid.Column="0" Margin="0,100,0,0" BorderThickness="2.5" Width="120" Height="60" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#000a2e">
+                                <Border.BorderBrush>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#004bb5" Offset="0" />
+                                        <GradientStop Color="#2071aa" Offset="0.5"/>
+                                        <GradientStop Color="#004bb5" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.BorderBrush>
+                                <Label Content="Rotate" Margin="0,0,0,0" FontSize="30" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Border>
+                            <Border Grid.Column="0" Margin="60,100,0,0" BorderThickness="2.5" Width="60" Height="60" VerticalAlignment="Top" Background="#000a2e" HorizontalAlignment="Center">
+                                <Border.BorderBrush>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#004bb5" Offset="0" />
+                                        <GradientStop Color="#2071aa" Offset="0.5"/>
+                                        <GradientStop Color="#004bb5" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.BorderBrush>
+                                <Button x:Name="rotateKeyLabel" Background="Transparent" BorderThickness="0" Content="W" Margin="0,0,0,0" FontSize="30" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" Height="40" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="AwaitRotateKey" KeyDown="SetRotateKey" MouseEnter="DefaultBtnEnter" MouseLeave="DefaultBtnLeave" />
+                            </Border>
+                            <Border Grid.Column="1" Margin="0,100,0,0" BorderThickness="2.5" Width="120" Height="60" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#000a2e">
+                                <Border.BorderBrush>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#004bb5" Offset="0" />
+                                        <GradientStop Color="#2071aa" Offset="0.5"/>
+                                        <GradientStop Color="#004bb5" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.BorderBrush>
+                                <Label Content="Soft Fall" Margin="0,0,0,0" FontSize="30" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Border>
+                            <Border Grid.Column="1" Margin="60,100,0,0" BorderThickness="2.5" Width="60" Height="60" VerticalAlignment="Top" Background="#000a2e" HorizontalAlignment="Right">
+                                <Border.BorderBrush>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#004bb5" Offset="0" />
+                                        <GradientStop Color="#2071aa" Offset="0.5"/>
+                                        <GradientStop Color="#004bb5" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.BorderBrush>
+                                <Button x:Name="fallKeyLabel" Background="Transparent" BorderThickness="0" Content="S" Margin="0,0,0,0" FontSize="30" FontFamily="pack://application:,,,/res/#Jersey 10" FontWeight="Regular" Foreground="White" Height="40" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="AwaitFallKey" KeyDown="SetFallKey"  MouseEnter="DefaultBtnEnter" MouseLeave="DefaultBtnLeave"/>
+                            </Border>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </TabItem>
+    </TabControl>
+    
+
+</Window>
